@@ -69,4 +69,39 @@ class CircularLinkedListTest {
         list.deleteAll('b')
         assertEquals("ac", list.toString(), "list should be \"ac\" ")
     }
+
+    @Test
+    fun testGet() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('c')
+        list.append('d')
+        list.append('e')
+        assertEquals('a', list.get(0), "element should be \'a\' ")
+        assertEquals('e', list.get(4), "element should be \'e\' ")
+        assertEquals('c', list.get(2), "element should be \'c\' ")
+    }
+
+    @Test
+    fun testClone() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('c')
+        list.append('d')
+        list.append('e')
+        val clone = list.clone()
+        assertEquals(list.toString(), clone.toString(), "clone should be \"abcde\" ")
+    }
+
+    @Test
+    fun testReverse() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('c')
+        list.reverse()
+        assertEquals("cba", list.toString(), "list should be \"cba\" ")
+    }
 }

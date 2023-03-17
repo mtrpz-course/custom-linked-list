@@ -123,15 +123,38 @@ class CircularLinkedList : List {
     }
 
     override fun get(index: Int): Char {
-        TODO("Not yet implemented")
+        if (index < 0 || index >= length) {
+            throw IndexOutOfBoundsException()
+        }
+        var current = head
+        for (i in 0 until index) {
+            current = current?.next
+        }
+        return current!!.element
     }
 
     override fun clone(): List {
-        TODO("Not yet implemented")
+        val newList = CircularLinkedList()
+        var current = head
+        for (i in 0 until length) {
+            newList.append(current?.element!!)
+            current = current.next
+        }
+        return newList
     }
 
     override fun reverse() {
-        TODO("Not yet implemented")
+        var prev: Node? = null
+        var current = head
+        var next: Node? = null
+        do {
+            next = current?.next
+            current?.next = prev
+            prev = current
+            current = next
+        } while (current != head)
+        head?.next = prev
+        head = prev
     }
 
     override fun findFirst(element: Char): Int {
