@@ -45,15 +45,81 @@ class CircularLinkedList : List {
     }
 
     override fun insert(element: Char, index: Int) {
-        TODO("Not yet implemented")
+        if (index < 0 || index >= length) {
+            throw IndexOutOfBoundsException()
+        }
+        when (index) {
+            0 -> {
+                val newNode = Node(element, head)
+                var current = head
+                while (current?.next != head) {
+                    current = current?.next
+                }
+                current?.next = newNode
+                head = newNode
+                length++
+            }
+            else -> {
+                var current = head
+                for (i in 0 until index - 1) {
+                    current = current?.next
+                }
+                val newNode = Node(element, current?.next)
+                current?.next = newNode
+                length++
+            }
+        }
     }
 
     override fun delete(index: Int): Char {
-        TODO("Not yet implemented")
+        if (index < 0 || index >= length) {
+            throw IndexOutOfBoundsException()
+        }
+        var deletedChar: Char = ' '
+        when (index) {
+            0 -> {
+                deletedChar = head?.element ?: deletedChar
+                var current = head
+                while (current?.next != head) {
+                    current = current?.next
+                }
+                current?.next = head?.next
+                head = head?.next
+                length--
+            }
+
+            else -> {
+                var current = head
+                for (i in 0 until index - 1) {
+                    current = current?.next
+                }
+                deletedChar = current?.next?.element ?: deletedChar
+                current?.next = current?.next?.next
+                length--
+            }
+        }
+        return deletedChar
     }
 
     override fun deleteAll(element: Char) {
-        TODO("Not yet implemented")
+        var current = head
+        var prev: Node? = null
+        var count = 0
+        while (current != null && count <= length) {
+            if (current.element == element) {
+                if (current == head) {
+                    head = current.next
+                } else {
+                    prev?.next = current.next
+                    current = current.next
+                }
+                length--
+            } else {
+                prev = current
+                current = current.next
+            }
+            count++
+        }
     }
 
     override fun get(index: Int): Char {

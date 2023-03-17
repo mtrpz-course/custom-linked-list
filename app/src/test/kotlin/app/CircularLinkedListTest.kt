@@ -30,4 +30,43 @@ class CircularLinkedListTest {
         list.append('c')
         assertEquals("abc", list.toString(), "list should be \"abc\" ")
     }
+
+    @Test
+    fun testInsert() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('c')
+        list.insert('d', 1)
+        assertEquals("adbc", list.toString(), "list should be \"adbc\" ")
+        list.insert('e', 0)
+        assertEquals("eadbc", list.toString(), "list should be \"eadbc\" ")
+        list.insert('f', 4)
+        assertEquals("eadbfc", list.toString(), "list should be \"eadbfc\" ")
+    }
+
+    @Test
+    fun testDelete() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('c')
+        list.append('d')
+        list.append('e')
+        assertEquals('a', list.delete(0), "list should be \"bcde\" ")
+        assertEquals('e', list.delete(3), "list should be \"bcd\" ")
+        assertEquals('c', list.delete(1), "list should be \"bd\" ")
+    }
+
+    @Test
+    fun testDeleteAll() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('b')
+        list.append('b')
+        list.append('c')
+        list.deleteAll('b')
+        assertEquals("ac", list.toString(), "list should be \"ac\" ")
+    }
 }
