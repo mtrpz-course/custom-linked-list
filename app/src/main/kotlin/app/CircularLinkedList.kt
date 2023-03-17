@@ -13,17 +13,13 @@ class CircularLinkedList : List {
 
     override fun toString(): String {
         var result = ""
-        return if (head == null) {
-            return result
-        } else {
-            var current = head
-            while (current?.next != head) {
-                result += current?.element
-                current = current?.next
-            }
+        var current = head
+        while (current?.next != head) {
             result += current?.element
-            result
+            current = current?.next
         }
+        result += current?.element
+        return result
     }
 
     override fun length(): Int {
