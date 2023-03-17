@@ -11,12 +11,37 @@ class CircularLinkedList : List {
 
     private var length: Int = 0
 
+    override fun toString(): String {
+        var result = ""
+        return if (head == null) {
+            return result
+        } else {
+            var current = head
+            while (current?.next != head) {
+                result += current?.element
+                current = current?.next
+            }
+            result += current?.element
+            result
+        }
+    }
+
     override fun length(): Int {
-        TODO("Not yet implemented")
+        return length
     }
 
     override fun append(element: Char) {
-        TODO("Not yet implemented")
+        if (head == null) {
+            head = Node(element)
+            head?.next = head
+        } else {
+            var current = head
+            while (current?.next != head) {
+                current = current?.next
+            }
+            current?.next = Node(element, head)
+        }
+        length++
     }
 
     override fun insert(element: Char, index: Int) {
