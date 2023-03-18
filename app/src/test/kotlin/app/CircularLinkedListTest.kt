@@ -104,4 +104,51 @@ class CircularLinkedListTest {
         list.reverse()
         assertEquals("cba", list.toString(), "list should be \"cba\" ")
     }
+
+    @Test
+    fun testFindFirst() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('b')
+        list.append('b')
+        list.append('e')
+        assertEquals(1, list.findFirst('b'), "element should be at index 0")
+    }
+
+    @Test
+    fun testFindLast() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('b')
+        list.append('b')
+        list.append('c')
+        assertEquals(3, list.findLast('b'), "element should be at index 1")
+    }
+
+    @Test
+    fun testClear() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('c')
+        list.append('d')
+        list.append('e')
+        list.clear()
+        assertEquals(0, list.length(), "list should be empty")
+    }
+
+    @Test
+    fun testExtend() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('c')
+        val list2 = CircularLinkedList()
+        list2.append('d')
+        list2.append('e')
+        list.extend(list2)
+        assertEquals("abcde", list.toString(), "list should be \"abcde\" ")
+    }
 }

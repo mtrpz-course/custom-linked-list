@@ -158,18 +158,44 @@ class CircularLinkedList : List {
     }
 
     override fun findFirst(element: Char): Int {
-        TODO("Not yet implemented")
+        var current = head
+        var index = 0
+        var count = 0
+        while (current != null && count < length) {
+            if (current.element == element) {
+                return index
+            }
+            current = current.next
+            index++
+            count++
+        }
+        return -1
     }
 
     override fun findLast(element: Char): Int {
-        TODO("Not yet implemented")
+        var current = head
+        var index = 0
+        var count = 0
+        var lastIndex = -1
+        while (current != null && count < length) {
+            if (current.element == element) {
+                lastIndex = index
+            }
+            current = current.next
+            index++
+            count++
+        }
+        return lastIndex
     }
 
     override fun clear() {
-        TODO("Not yet implemented")
+        head = null
+        length = 0
     }
 
     override fun extend(elements: List) {
-        TODO("Not yet implemented")
+        for (i in 0 until elements.length()) {
+            append(elements.get(i))
+        }
     }
 }
