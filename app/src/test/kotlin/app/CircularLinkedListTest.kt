@@ -13,6 +13,18 @@ class CircularLinkedListTest {
     }
 
     @Test
+    fun testNextNode() {
+        val list = CircularLinkedList()
+        list.append('a')
+        list.append('b')
+        list.append('c')
+        assertEquals('a', list.head?.element, "next node should be \'a\'")
+        assertEquals('b', list.head?.next?.element, "next node should be \'b\'")
+        assertEquals('c', list.head?.next?.next?.element, "next node should be \'c\'")
+        assertEquals('a', list.head?.next?.next?.next?.element, "next node should be \'a\'")
+    }
+
+    @Test
     fun testLength() {
         val list = CircularLinkedList()
         assertEquals(0, list.length(), "list should be empty")

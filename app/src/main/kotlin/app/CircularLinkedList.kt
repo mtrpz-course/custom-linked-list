@@ -1,13 +1,12 @@
 package app
 
 class CircularLinkedList : List {
-
-    private data class Node(
+    inner class Node(
         var element: Char,
         var next: Node? = null,
     )
 
-    private var head: Node? = null
+    var head: Node? = null
 
     private var length: Int = 0
 
