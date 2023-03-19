@@ -44,7 +44,7 @@ class CircularLinkedList : List {
     }
 
     override fun insert(element: Char, index: Int) {
-        if (index < 0 || index >= length) {
+        if (index < 0 || index > length) {
             throw IndexOutOfBoundsException()
         }
         when (index) {
@@ -102,21 +102,13 @@ class CircularLinkedList : List {
 
     override fun deleteAll(element: Char) {
         var current = head
-        var prev: Node? = null
         var count = 0
-        while (current != null && count <= length) {
+        while (current != null && count < length) {
             if (current.element == element) {
-                if (current == head) {
-                    head = current.next
-                } else {
-                    prev?.next = current.next
-                    current = current.next
-                }
-                length--
-            } else {
-                prev = current
-                current = current.next
+                delete(count)
+                count--
             }
+            current = current.next
             count++
         }
     }
@@ -132,7 +124,7 @@ class CircularLinkedList : List {
         return current!!.element
     }
 
-    override fun clone(): List {
+    override fun clone(): CircularLinkedList {
         val newList = CircularLinkedList()
         var current = head
         for (i in 0 until length) {

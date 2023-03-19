@@ -4,12 +4,34 @@
 package app
 
 class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
-}
+    private val list1 = CircularLinkedList()
+    private val list2 = CircularLinkedList()
+    private val name = "DAVID"
+    private val surname = "BOWIE"
 
+    init {
+        for (i in name.indices) {
+            list1.append(name[i])
+        }
+        for (i in surname.indices) {
+            list2.append(surname[i])
+        }
+
+        list1.reverse()
+        list1.deleteAll('D')
+        list1.insert('D', 0)
+        list1.insert('D', 4)
+        list1.reverse()
+        list1.extend(list2)
+        list2.clear()
+        list1.extend(list2)
+        list1.insert(' ', 5)
+    }
+
+    fun printList() {
+        println(list1)
+    }
+}
 fun main() {
-    println(App().greeting)
+    App().printList()
 }

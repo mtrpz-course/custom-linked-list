@@ -3,12 +3,13 @@
  */
 package app
 
-import kotlin.test.Test
+import org.junit.Test
 import kotlin.test.assertNotNull
 
 class AppTest {
-    @Test fun appHasAGreeting() {
-        val classUnderTest = App()
-        assertNotNull(classUnderTest.greeting, "app should have a greeting")
+    @Test
+    fun appHasList() {
+        val app = App()
+        assertNotNull(app.printList(), "app should have a list")
     }
 }

@@ -76,8 +76,8 @@ class CircularLinkedListTest {
         list.append('a')
         list.append('b')
         list.append('b')
-        list.append('b')
         list.append('c')
+        list.append('b')
         list.deleteAll('b')
         assertEquals("ac", list.toString(), "list should be \"ac\" ")
     }
