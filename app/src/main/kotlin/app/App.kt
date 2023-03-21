@@ -20,7 +20,7 @@ class App {
         list1.reverse()
         list1.deleteAll('D')
         list1.insert('D', 0)
-        list1.insert('D', 4)
+        list1.append('D')
         list1.reverse()
         list1.extend(list2)
         list2.clear()

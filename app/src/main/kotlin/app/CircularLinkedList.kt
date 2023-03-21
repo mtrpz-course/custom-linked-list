@@ -1,192 +1,159 @@
 package app
 
-class CircularLinkedList : List {
+import java.util.LinkedList
+
+class CircularLinkedList() : List<Char> {
     inner class Node(
         var element: Char,
         var next: Node? = null,
     )
-
     var head: Node? = null
-
-    private var length: Int = 0
+    private val baseList = LinkedList<Node>()
 
     override fun toString(): String {
-        var result = ""
-        return if (head == null) {
-            return result
-        } else {
-            var current = head
-            while (current?.next != head) {
-                result += current?.element
-                current = current?.next
-            }
-            result += current?.element
-            result
+        var string = ""
+        for (i in baseList.indices) {
+            string += baseList[i].element
         }
+        return string
     }
 
     override fun length(): Int {
-        return length
+        return baseList.size
     }
 
     override fun append(element: Char) {
         if (head == null) {
-            head = Node(element)
-            head?.next = head
+            baseList.add(Node(element))
+            head = baseList.first
+        } else if (baseList.size == 1) {
+            baseList.add(Node(element))
+            baseList[0].next = baseList[1]
+            baseList[1].next = baseList[0]
         } else {
-            var current = head
-            while (current?.next != head) {
-                current = current?.next
-            }
-            current?.next = Node(element, head)
+            baseList.add(Node(element))
+            baseList[baseList.size - 2].next = baseList[baseList.size - 1]
+            baseList[baseList.size - 1].next = baseList[0]
         }
-        length++
     }
 
     override fun insert(element: Char, index: Int) {
-        if (index < 0 || index > length) {
+        if (index < 0 || index >= baseList.size) {
             throw IndexOutOfBoundsException()
         }
+        val newNode = Node(element, baseList[index])
         when (index) {
             0 -> {
-                val newNode = Node(element, head)
-                var current = head
-                while (current?.next != head) {
-                    current = current?.next
-                }
-                current?.next = newNode
+                baseList[baseList.size - 1].next = newNode
                 head = newNode
-                length++
+                baseList.add(index, newNode)
             }
+            1 -> {
+                baseList[0].next = newNode
+                head?.next = newNode
+                baseList.add(index, newNode)
+            }
+
             else -> {
-                var current = head
-                for (i in 0 until index - 1) {
-                    current = current?.next
-                }
-                val newNode = Node(element, current?.next)
-                current?.next = newNode
-                length++
+                baseList[index - 1].next = newNode
+                baseList[index].next = newNode
+                baseList.add(index, newNode)
             }
         }
     }
 
     override fun delete(index: Int): Char {
-        if (index < 0 || index >= length) {
+        if (index < 0 || index >= baseList.size) {
             throw IndexOutOfBoundsException()
         }
         var deletedChar: Char = ' '
+        var current = head
         when (index) {
             0 -> {
                 deletedChar = head?.element ?: deletedChar
-                var current = head
                 while (current?.next != head) {
                     current = current?.next
                 }
                 current?.next = head?.next
                 head = head?.next
-                length--
+                baseList.removeAt(index)
             }
 
             else -> {
-                var current = head
                 for (i in 0 until index - 1) {
                     current = current?.next
                 }
                 deletedChar = current?.next?.element ?: deletedChar
                 current?.next = current?.next?.next
-                length--
+                baseList.removeAt(index)
             }
         }
         return deletedChar
     }
 
     override fun deleteAll(element: Char) {
-        var current = head
-        var count = 0
-        while (current != null && count < length) {
-            if (current.element == element) {
-                delete(count)
-                count--
+        for (i in baseList.indices.reversed()) {
+            if (baseList[i].element == element) {
+                baseList.removeAt(i)
+                if (i == 0) {
+                    head = baseList.first
+                }
             }
-            current = current.next
-            count++
+        }
+        for (i in 0 until baseList.size - 1) {
+            baseList[i].next = baseList[i + 1]
         }
     }
 
     override fun get(index: Int): Char {
-        if (index < 0 || index >= length) {
+        if (index < 0 || index >= baseList.size) {
             throw IndexOutOfBoundsException()
         }
-        var current = head
-        for (i in 0 until index) {
-            current = current?.next
-        }
-        return current!!.element
+        return baseList[index].element
     }
 
     override fun clone(): CircularLinkedList {
         val newList = CircularLinkedList()
-        var current = head
-        for (i in 0 until length) {
-            newList.append(current?.element!!)
-            current = current.next
+        for (i in baseList.indices) {
+            newList.append(baseList[i].element)
         }
         return newList
     }
 
     override fun reverse() {
-        var prev: Node? = null
-        var current = head
-        var next: Node? = null
-        do {
-            next = current?.next
-            current?.next = prev
-            prev = current
-            current = next
-        } while (current != head)
-        head?.next = prev
-        head = prev
+        baseList.reverse()
+        head = baseList.first
+        for (i in 0 until baseList.size - 1) {
+            baseList[i].next = baseList[i + 1]
+        }
     }
 
     override fun findFirst(element: Char): Int {
-        var current = head
-        var index = 0
-        var count = 0
-        while (current != null && count < length) {
-            if (current.element == element) {
-                return index
+        for (i in baseList.indices) {
+            if (baseList[i].element == element) {
+                return i
             }
-            current = current.next
-            index++
-            count++
         }
         return -1
     }
 
     override fun findLast(element: Char): Int {
-        var current = head
-        var index = 0
-        var count = 0
-        var lastIndex = -1
-        while (current != null && count < length) {
-            if (current.element == element) {
-                lastIndex = index
+        for (i in baseList.indices.reversed()) {
+            if (baseList[i].element == element) {
+                return i
             }
-            current = current.next
-            index++
-            count++
         }
-        return lastIndex
+        return -1
     }
 
     override fun clear() {
+        baseList.clear()
         head = null
-        length = 0
     }
 
-    override fun extend(elements: List) {
-        for (i in 0 until elements.length()) {
-            append(elements.get(i))
+    override fun extend(elements: CircularLinkedList) {
+        for (i in elements.baseList.indices) {
+            baseList.add(elements.baseList[i])
         }
     }
 }
